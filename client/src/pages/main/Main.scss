@@ -1,3 +1,36 @@
-body{
-    background-color: #490660;
+body {
+  background-color: #490660;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 50vh;
+  .block_count {
+    display: flex;
+    img {
+      height: 122px;
+      width: 152px;
+    }
+    h2 {
+      color: #ffffff;
+      text-align: left;
+      vertical-align: text-top;
+      font-size: 50px;
+      font-family: Maiden Orange;
+      line-height: auto;
+      border-style: hidden;
+      outline: none;
+    }
+  }
+  .block_click {
+    img {
+      height: 220px;
+      width: 300px;
+      border-radius: 50%;
+      border: 5px solid white;
+    }
+  }
 }
