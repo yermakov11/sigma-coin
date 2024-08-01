@@ -1,5 +1,5 @@
 import './Header.scss'
-import { NavLink } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
 export default function Header() {
   return (
     <header>
@@ -10,7 +10,6 @@ export default function Header() {
         <div className='list-bar'>
           <ul>
             <li>sigmas</li>
-            <li>add sigma</li>
             <li>about us</li>
           </ul>
         </div>

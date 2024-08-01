@@ -1,7 +1,10 @@
 import "./Main.scss";
 import { useState } from "react";
+import AudioPlayer from "../../components/audioplayer/AudioPlayer";
 import sigma from "../../../public/img/sigma.webp";
 import onclick from "../../../public/img/onclick.jpg"
+import { songs } from "../../data/data_music";
+
 export default function Main() {
   const [count, setCount] = useState<number>(0);
   const [image, setImage] = useState(sigma);
@@ -10,6 +13,7 @@ export default function Main() {
       setCount(count+1);
       setImage(prevImage=>prevImage===sigma?onclick:sigma);
   };
+  
   return (
     <main>
       <div className="block_count">
@@ -18,6 +22,9 @@ export default function Main() {
       </div>
       <div className="block_click">
         <img src={image} alt="error" onClick={clickCoin}/>
+      </div>
+      <div className="sigma_music">
+       <AudioPlayer songs={songs}/>
       </div>
     </main>
   );

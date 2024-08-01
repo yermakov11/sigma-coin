@@ -1,0 +1,55 @@
+/* AudioPlayer.scss */
+.player-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:rgba(217, 217, 217, 0.14000000059604645);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height:160px;
+    width:354px;
+  
+    audio {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    h2 {
+        color:#ffffff;
+        text-align:center;
+        vertical-align:text-top;
+        font-size:18px;
+        font-family:Magra;
+        line-height:auto;
+        border-style:hidden;
+        outline:none;
+        width:245px;
+    }
+  
+    .controls {
+      display: flex;
+      gap: 10px;
+    }
+  
+    button {
+      background-color: #ff00c7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color:  #ffffff3e;
+      }
+    }
+  
+    input[type="range"] {
+      width: 100%;
+      margin-bottom: 10px;
+      background: #ff00c7;
+    }
+  }
+  
