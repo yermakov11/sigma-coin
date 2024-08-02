@@ -48,10 +48,7 @@ export default function AudioPlayer({ songs }: AudioProps) {
     }
   };
 
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
+  
   const handleNext = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % songs.length);
     setIsPlaying(true);
@@ -65,11 +62,11 @@ export default function AudioPlayer({ songs }: AudioProps) {
   return (
     <div className="player-card">
       <h2>{songs[currentSongIndex].title}</h2>
-      <audio ref={audioRef} src={songs[currentSongIndex].url}></audio>
+      <audio ref={audioRef} src={songs[currentSongIndex].url}/>
       <input type="range" min="0" max={duration} value={currentTime} onChange={handleSeek} />
       <div className="controls">
         <button onClick={handlePrev}>{"<"}</button>
-        <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
+        <button onClick={()=>setIsPlaying(!isPlaying)}>{isPlaying ? 'Pause' : 'Play'}</button>
         <button onClick={handleNext}>{">"}</button>
       </div>
     </div>

@@ -1,0 +1,19 @@
+/* PlusOneEffect.scss */
+.plus-one {
+    position: absolute;
+    animation: fadeOut 1s forwards;
+    font-family: Inter;
+    text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25);
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #e8c547 0%, #ef882b 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+    user-select: none;
+    animation: move-up 2s forwards;
+    padding: 230px;
+    padding-left: 50px;
+  }
+  
