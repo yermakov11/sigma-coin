@@ -21,7 +21,7 @@ To run Sigma Coin locally, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your_user/sigma-coin.git
+    git clone https://github.com/yermakov11/sigma-coin.git
     ```
 2. Navigate to the project folder:
     ```bash
