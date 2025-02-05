@@ -11,11 +11,11 @@ Sigma-Coin is an innovative clicker game that allows users to earn virtual crypt
 - **NFTs and Blockchain**: The integration of NFT assets and blockchain technology ensures transaction security and item uniqueness.
 
 ## How to Play?
-1.Sign in.
+1. Sign in.
 
-2.Start playing. Click on the character icon, and start earning money.
+2. Start playing. Click on the character icon, and start earning money.
 
-3.After numerous clicks, unlock new characters.
+3. After numerous clicks, unlock new characters.
 
 Sigma-Coin is not just a clicker but a gamified earning system that makes the world of cryptocurrency accessible to everyone!
 
