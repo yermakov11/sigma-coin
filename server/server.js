@@ -1,11 +1,24 @@
-const express = require('express');
+require('dotenv').config();
+const express=require('express');
 const app = express();
-const port = 3000;
+const cors=require('cors');
+const mongoose=require('mongoose');
+const PORT = process.env.PORT||3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello, Express.js!');
-});
+app.use(express.json());
+app.use(cors({
+  credentials: true,
+  origin: process.env.PORT}));
 
-app.listen(port, () => {
-  console.log(`Сервер запущен на http://localhost:${port}`);
-});
+const start = async () => {
+  try {
+      await mongoose.connect(process.env.DB_URL, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+      })
+      app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+  } catch (error) {
+      console.log(error);
+  }
+}
+start()
