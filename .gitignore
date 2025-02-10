@@ -23,3 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 to_do.txt
+.env
