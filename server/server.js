@@ -5,7 +5,10 @@ const cors=require('cors');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT||3000;
 const userRoutes = require('./routers/authRoutes');
+const logoutRoutes=require('./routers/logoutRoutes');
+const balanceRoutes=require('./routers/gameRoutes');
 const connectDB=require('./config/db');
+
 
 app.use(express.json());
 app.use(cors({credentials: true,origin: process.env.CLIENT_URL}));
@@ -15,7 +18,9 @@ app.use((req,res,next) => {
   next()
 })
 
-app.use('/auth',userRoutes)
+app.use('/auth', userRoutes);
+app.use('/balance',balanceRoutes);
+app.use('/logout', logoutRoutes);
 
 
 const start = async () => {
