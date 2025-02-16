@@ -7,11 +7,9 @@ const addCoins = async (req, res) => {
       return res.status(400).json({ message: "Invalid coin amount" });
 
     let balance = await Balance.findOne({ userId: req.user.id });
-
     if (!balance) {
       balance = await Balance.create({ userId: req.user.id, coins: 0 });
     }
-
     balance.coins += coins;
     await balance.save();
 

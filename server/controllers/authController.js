@@ -1,8 +1,10 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const sendVerificationEmail=require('../utils/sendVerificationEmail');
 
 const signup = async (req, res) => {
+  console.log("Incoming request body:", req.body);
   const { name, surname, password, email } = req.body;
   if (!name || !surname || !password || !email) {
     return res.status(400).json({ message: "Username and password are required." });
@@ -12,13 +14,19 @@ const signup = async (req, res) => {
 
   try {
     const hashPwd = await bcrypt.hash(password, 10);
+    const verificationToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
+
     const result = await User.create({
       name: name,
       surname: surname,
       password: hashPwd,
       email: email,
+      verificationToken: verificationToken,
     });
+
     console.log(result);
+
+    await sendVerificationEmail(email,verificationToken);
     return res.status(200).json({ success: `New user ${name} created!` });
   } catch (error) {
     res.status(500).json({ message: err.message });
@@ -34,13 +42,13 @@ const login = async (req, res) => {
     const fountUser = await User.findOne({ email: email }).exec();
     if (!fountUser) return res.sendStatus(400);
 
-    const match = bcrypt.compare(password, fountUser.password);
+    const match = await bcrypt.compare(password, fountUser.password);
 
     if (match) {
       const accessToken = jwt.sign(
         { UserInfo: { email: fountUser.email } },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "10s" }
+        { expiresIn: "1h" }
       );
       const refreshToken = jwt.sign(
         { username: fountUser.email },
@@ -56,7 +64,7 @@ const login = async (req, res) => {
       return res.json({ message: "User successfully logged in", accessToken });
 
     } else {
-      res.sendStatus(401).json({ message: "user not found" });
+      return res.sendStatus(401).json({ message: "user not found" });
     }
   } catch (error) {
     console.error("Login error:", error);

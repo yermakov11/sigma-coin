@@ -7,6 +7,7 @@ const PORT = process.env.PORT||3000;
 const userRoutes = require('./routers/authRoutes');
 const logoutRoutes=require('./routers/logoutRoutes');
 const balanceRoutes=require('./routers/gameRoutes');
+const verifyRoutes=require('./routers/verifyRoutes');
 const connectDB=require('./config/db');
 
 
@@ -21,7 +22,7 @@ app.use((req,res,next) => {
 app.use('/auth', userRoutes);
 app.use('/balance',balanceRoutes);
 app.use('/logout', logoutRoutes);
-
+app.use('/',verifyRoutes);
 
 const start = async () => {
   try {
@@ -31,4 +32,5 @@ const start = async () => {
       console.log('db error',error);
   }
 }
+
 start()
