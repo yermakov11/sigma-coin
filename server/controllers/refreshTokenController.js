@@ -7,27 +7,25 @@ const handleRefreshToken = async (req, res) => {
     const refreshToken = cookies.jwt;
 
     const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser) return res.sendStatus(403); 
+    if (!foundUser) return res.sendStatus(403);
 
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
-            if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
-            const roles = Object.values(foundUser.roles);
+            if (err || foundUser.surname !== decoded.username) return res.sendStatus(403);
             const accessToken = jwt.sign(
                 {
-                    "UserInfo": {
+                    "User": {
                         "username": decoded.username,
-                        "roles": roles
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '10s' }
             );
-            res.json({ roles, accessToken })
+            res.json({ accessToken });
         }
     );
-}
+};
 
-module.exports = { handleRefreshToken }
+module.exports = handleRefreshToken;
