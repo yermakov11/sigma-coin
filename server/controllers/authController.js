@@ -1,10 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const sendVerificationEmail=require('../utils/sendVerificationEmail');
+// const sendVerificationEmail=require('../utils/sendVerificationEmail');
 
 const signup = async (req, res) => {
-  console.log("Incoming request body:", req.body);
   const { name, surname, password, email } = req.body;
   if (!name || !surname || !password || !email) {
     return res.status(400).json({ message: "Username and password are required." });
@@ -26,7 +25,7 @@ const signup = async (req, res) => {
 
     console.log(result);
 
-    await sendVerificationEmail(email,verificationToken);
+    // await sendVerificationEmail(email,verificationToken);
     return res.status(200).json({ success: `New user ${name} created!` });
   } catch (error) {
     res.status(500).json({ message: err.message });
@@ -42,7 +41,7 @@ const login = async (req, res) => {
     const fountUser = await User.findOne({ email: email }).exec();
     if (!fountUser) return res.sendStatus(400);
 
-    const match = await bcrypt.compare(password, fountUser.password);
+    const match = bcrypt.compare(password, fountUser.password);
 
     if (match) {
       const accessToken = jwt.sign(

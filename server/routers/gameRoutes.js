@@ -1,8 +1,8 @@
-const express = require('express');
-const gameController  = require('../controllers/gameController');
-const authMiddleware = require('../middleware/requireAuth');
-
+const express = require("express");
 const router = express.Router();
-router.get('/', authMiddleware, gameController.addCoins);
+const { addCoins } = require("../controllers/gameController");
+
+
+router.put("/addCoins/:id", addCoins);
 
 module.exports = router;

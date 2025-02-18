@@ -6,8 +6,9 @@ const userSchema = new Schema({
   surname: { type: String, require: true },
   password: { type: String, require: true },
   email: { type: String, require: true },
-  isVerified: { type: Boolean, default: false },
-  verificationToken: { type: String, default: null },
+  coins: { type: Number, default: 0 },
+  // isVerified: { type: Boolean, default: false },
+  // verificationToken: { type: String, default: null },
 });
 
 module.exports = mongoose.model("User", userSchema);

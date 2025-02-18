@@ -5,10 +5,12 @@ const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routers/authRoutes");
 const logoutRoutes = require("./routers/logoutRoutes");
-const balanceRoutes = require("./routers/gameRoutes");
-const verifyRoutes = require("./routers/verifyRoutes");
+const gameRoutes = require("./routers/gameRoutes");
+const verifyEmail = require("./routers/verifyRoutes");
 const userRoutes = require("./routers/userRoutes");
 const connectDB = require("./config/db");
+const refreshRoutes=require('./routers/refreshRoutes');
+const verifyJWT=require('./middleware/verifyToken');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,10 +25,12 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", authRoutes);
-app.use("/balance", balanceRoutes);
+app.use("/balance", gameRoutes);
 app.use("/logout", logoutRoutes);
-app.use("/verify", verifyRoutes);
+// app.use("/verify", verifyEmail);
 app.use("/users", userRoutes);
+app.use('/refresh', refreshRoutes);
+app.use(verifyJWT);
 
 const start = async () => {
     try {
