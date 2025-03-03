@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routers/authRoutes");
 const logoutRoutes = require("./routers/logoutRoutes");
 const gameRoutes = require("./routers/gameRoutes");
-const verifyEmail = require("./routers/verifyRoutes");
+const verifyRoutes = require("./routers/verifyRoutes");
 const userRoutes = require("./routers/userRoutes");
 const connectDB = require("./config/db");
 const refreshRoutes=require('./routers/refreshRoutes');
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRoutes);
 app.use("/balance", gameRoutes);
 app.use("/logout", logoutRoutes);
-// app.use("/verify", verifyEmail);
+app.use("/verify", verifyRoutes);
 app.use("/users", userRoutes);
 app.use('/refresh', refreshRoutes);
 app.use(verifyJWT);

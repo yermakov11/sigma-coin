@@ -1,73 +1,61 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const sendVerificationEmail=require('../utils/sendVerificationEmail');
+const sendVerificationEmail=require('../utils/sendVerificationEmail');
 
 const signup = async (req, res) => {
-  const { name, surname, password, email } = req.body;
-  if (!name || !surname || !password || !email) {
-    return res.status(400).json({ message: "Username and password are required." });
-  }
-  const duplicate = await User.findOne({ email: email }).exec();
-  if (duplicate) return res.sendStatus(409);
-
   try {
-    const hashPwd = await bcrypt.hash(password, 10);
+    const { name, surname, password, email } = req.body;
+    if (!name || !surname || !password || !email) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    const existingUser = await User.findOne({ email }).exec();
+    if (existingUser) return res.status(409).json({ message: "Email already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 
-    const result = await User.create({
-      name: name,
-      surname: surname,
-      password: hashPwd,
-      email: email,
-      verificationToken: verificationToken,
-    });
+    const newUser = new User({ name, surname, password: hashedPassword, email, verificationToken });
+    await newUser.save();
 
-    console.log(result);
+    await sendVerificationEmail(email, verificationToken);
 
-    // await sendVerificationEmail(email,verificationToken);
-    return res.status(200).json({ success: `New user ${name} created!` });
+    return res.status(201).json({ success: `User ${name} registered. Verify your email!` });
+
   } catch (error) {
-    res.status(500).json({ message: err.message });
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password){
-      return res.status(400).json({ message: "Username and password are required." });
-    }
-    const fountUser = await User.findOne({ email: email }).exec();
-    if (!fountUser) return res.sendStatus(400);
+    if (!email || !password) return res.status(400).json({ message: "Email and password are required." });
 
-    const match = bcrypt.compare(password, fountUser.password);
+    const foundUser = await User.findOne({ email }).exec();
+    if (!foundUser) return res.status(401).json({ message: "User not found." });
 
-    if (match) {
-      const accessToken = jwt.sign(
-        { UserInfo: { email: fountUser.email } },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1h" }
-      );
-      const refreshToken = jwt.sign(
-        { username: fountUser.email },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "30d" }
-      );
+    if (!foundUser.isVerified) return res.status(403).json({ message: "Email not verified." });
 
-      fountUser.refreshToken = refreshToken;
-      const result = await fountUser.save();
-      console.log(result);
+    const match = await bcrypt.compare(password, foundUser.password);
+    if (!match) return res.status(401).json({ message: "Invalid credentials." });
 
-      res.cookie("jwt", refreshToken, {httpOnly: true,secure: true,sameSite: "None",maxAge: 24 * 60 * 60 * 1000,});
-      return res.json({ message: "User successfully logged in", accessToken });
+    const accessToken = jwt.sign({ userId: foundUser._id, email: foundUser.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+    const refreshToken = jwt.sign({ userId: foundUser._id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "30d" });
 
-    } else {
-      return res.sendStatus(401).json({ message: "user not found" });
-    }
+    foundUser.refreshToken = refreshToken;
+    await foundUser.save();
+
+    res.cookie("jwt", refreshToken, { httpOnly: true, secure: true, sameSite: "None", maxAge: 24 * 60 * 60 * 1000 });
+
+    return res.json({ message: "Login successful", accessToken });
+
   } catch (error) {
     console.error("Login error:", error);
-    return res.status(500).json({ message: 'Server error' });    
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
