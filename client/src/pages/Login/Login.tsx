@@ -3,23 +3,26 @@ import styles from './Login.module.scss'
 import { Link } from "react-router"
 import { useActionState,useState } from "react";
 import {loginAPI} from "../../api/api";
+import FormStatus from "../../formStatus/FormStatus";
 
 export default function Login() {
 const [state, submitAction] = useActionState(auth, {
     data: null,
     error: null,
-  });
+});
 
   const [errorRegex, setErrorRegex] = useState({
     email: "",  
     password: "",
-    });
+  });
 
     const error_style={
       color: "red",
       fontSize: "12px",
       marginTop: "5px",
     }
+
+  const [status, setStatus] = useState<string>("sing in");
 
  async function auth (prevState:any, formData:FormData){
       const email = formData.get('email') as string | null;
@@ -46,6 +49,7 @@ const [state, submitAction] = useActionState(auth, {
       }
 
       try {
+        
         const response = await loginAPI(email, password);
         return {data: response, error: null}
       } catch (error:unknown) {
@@ -67,8 +71,8 @@ const [state, submitAction] = useActionState(auth, {
               {errorRegex.email && <p style={error_style} className="error">{errorRegex.email}</p>}
               <input type="password" name="password" autoComplete="current-password" placeholder="password"/>
               {errorRegex.password && <p style={error_style} className="error"> {errorRegex.password}</p>}
-              <button type="submit">sing in</button>
-              {state.error && <p>{state.error}</p>}
+              <FormStatus status={status}/>
+              {state.error && <p style={error_style}>{state.error}</p>}
               <Link to="/register">registration</Link>                
             </form>
         </div>

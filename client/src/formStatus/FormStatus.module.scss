@@ -1,0 +1,21 @@
+button {
+    background-color: #d9d9d9;
+    height: 37px;
+    width: 243px;
+    border-radius: 45px;
+    border-style: hidden;
+    outline: none;
+    cursor: pointer;
+    color: #000000;
+    text-align: center;
+    font-size: 26px;
+    font-family: Magra;
+    line-height: auto;
+    border-style: hidden;
+    outline: none;
+    margin-top: 20px;
+    &:hover {
+      background-color: #9f9999;
+      color: #000000;
+    }
+  }

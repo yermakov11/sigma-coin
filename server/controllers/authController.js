@@ -19,7 +19,11 @@ const signup = async (req, res) => {
     const newUser = new User({ name, surname, password: hashedPassword, email, verificationToken });
     await newUser.save();
 
-    await sendVerificationEmail(email, verificationToken);
+    const emailSent = await sendVerificationEmail(email, verificationToken);
+    if (!emailSent) {
+      await User.deleteOne({email});
+      return res.status(500).json({ message: "Error sending email." })
+    };
 
     return res.status(201).json({ success: `User ${name} registered. Verify your email!` });
 

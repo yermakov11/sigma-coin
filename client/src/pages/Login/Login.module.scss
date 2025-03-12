@@ -62,6 +62,10 @@
           line-height: auto;
           border-style: hidden;
           outline: none;
+          &:hover {
+            background-color: #9f9999;
+            color: #000000;
+          }
         }
       }
     }

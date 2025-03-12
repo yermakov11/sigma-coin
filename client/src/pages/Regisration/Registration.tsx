@@ -3,6 +3,7 @@ import styles from './Registration.module.scss'
 import { Link } from "react-router-dom"
 import { useActionState, useState } from "react";
 import {registerAPI} from "../../api/api";
+import FormStatus from "../../formStatus/FormStatus";
 
 export default function Registration() {
   const [state, submitAction] = useActionState(auth, {
@@ -22,6 +23,9 @@ export default function Registration() {
     fontSize: "12px",
     marginTop: "5px",
   }
+  
+  const [status, setStatus] = useState<string>("sing up");
+
 
  async function auth (prevState:any, formData:FormData){
       const name = formData.get('name') as string | null;
@@ -82,7 +86,7 @@ export default function Registration() {
               {errorRegex.password && <p style={error_style} className="error"> {errorRegex.password}</p>}
               <input type="email" name="email" placeholder="email" autoComplete="email"/>
               {errorRegex.email && <p style={error_style} className="error">{errorRegex.email}</p>}
-              <button type="submit">singup</button>
+              <FormStatus status={status} />              
               {state.error && <p style={error_style}>{state.error}</p>}
               <Link to="/login">Login</Link>                
             </form>
