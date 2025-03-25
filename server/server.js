@@ -30,6 +30,7 @@ app.use("/logout", logoutRoutes);
 app.use("/verify", verifyRoutes);
 app.use("/users", userRoutes);
 app.use('/refresh', refreshRoutes);
+
 app.use(verifyJWT);
 
 const start = async () => {

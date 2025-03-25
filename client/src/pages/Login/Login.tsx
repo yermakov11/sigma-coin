@@ -49,7 +49,6 @@ const [state, submitAction] = useActionState(auth, {
       }
 
       try {
-        
         const response = await loginAPI(email, password);
         return {data: response, error: null}
       } catch (error:unknown) {

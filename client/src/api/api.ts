@@ -13,7 +13,7 @@ export const registerAPI = async (name: string, surname: string, password: strin
     if(!(error as any).response){
       alert("Server is not available");
     } else if((error as any).response.status===409){
-      alert("Email already exists");
+      alert("User already exists");
     } else {
        alert("Registration failed");
     }
@@ -28,6 +28,9 @@ export const loginAPI = async (email: string, password: string) => {
       { email, password },
       { headers: { "Content-Type": "application/json" } }
     );
+    if(response.status===200){
+       console.log("Login successful");
+    }
     if(response.data.message==="User not found"){
       alert("Account not found, please register first");
     }

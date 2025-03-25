@@ -6,6 +6,7 @@ import {registerAPI} from "../../api/api";
 import FormStatus from "../../formStatus/FormStatus";
 
 export default function Registration() {
+  
   const [state, submitAction] = useActionState(auth, {
     data: null,
     error: null,
@@ -86,7 +87,8 @@ export default function Registration() {
               {errorRegex.password && <p style={error_style} className="error"> {errorRegex.password}</p>}
               <input type="email" name="email" placeholder="email" autoComplete="email"/>
               {errorRegex.email && <p style={error_style} className="error">{errorRegex.email}</p>}
-              <FormStatus status={status} />              
+              <FormStatus status={status} />   
+              {state.data && <p className={styles.verify_email}>Please, verify your email</p>}           
               {state.error && <p style={error_style}>{state.error}</p>}
               <Link to="/login">Login</Link>                
             </form>
