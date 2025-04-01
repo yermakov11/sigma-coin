@@ -4,23 +4,21 @@ import Registeration from "./pages/Regisration/Registration";
 import MainPage from "./pages/MainPage/MainPage";
 import Profile from "./pages/Profile/Profile";
 import EmailVerify from "./pages/EmailVerify/EmailVerify";
-import { ReactNode } from "react";
-
+import { useAuth } from "./contexts/userContext";
 function App() {
 
-  const isAuthenticated = () => !!localStorage.getItem("token");
-
-  const PrivateRoute = ({ children }: { children: ReactNode }) => {
-    return isAuthenticated() ? children : <Navigate to="/login" />;
-  };
-
+  function PrivateRoute({ children }: { children: React.ReactNode }) {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated() ? <>{children}</> : <Navigate to="/login" />;
+  }
   return (
     <Routes>
-      <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>}/>
+      <Route path="/main-page" element={<PrivateRoute><MainPage /></PrivateRoute> }/>
+      <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Registeration />} />
-      <Route path="/profile" element={<Profile />} />
       <Route path="/verify/:token" element={<EmailVerify />} />
+      <Route path="/" element={<Navigate to="/login" />} />
     </Routes>
   );
 }

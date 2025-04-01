@@ -28,7 +28,7 @@ app.use("/auth", authRoutes);
 app.use("/balance", gameRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/verify", verifyRoutes);
-app.use("/users", userRoutes);
+app.use("/profile", userRoutes);
 app.use('/refresh', refreshRoutes);
 
 app.use(verifyJWT);

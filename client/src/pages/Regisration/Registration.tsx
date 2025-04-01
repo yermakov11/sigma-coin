@@ -4,8 +4,11 @@ import { Link } from "react-router-dom"
 import { useActionState, useState } from "react";
 import {registerAPI} from "../../api/api";
 import FormStatus from "../../formStatus/FormStatus";
+import { useAuth } from "../../contexts/userContext";
 
 export default function Registration() {
+
+  const {login} = useAuth();
   
   const [state, submitAction] = useActionState(auth, {
     data: null,
@@ -63,6 +66,14 @@ export default function Registration() {
 
       try {
         const response = await registerAPI(name, surname, password, email);
+        if (response) {
+          login(response); 
+          console.log("Registration successful", response);
+          console.log(state);
+        } else {
+          setStatus("Registration failed");
+        }
+        console.log("Registration API response:", response);
         return {data: response, error: null}
       } catch (error:unknown) {
         if (error instanceof Error) {
