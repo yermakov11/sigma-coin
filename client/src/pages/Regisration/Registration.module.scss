@@ -4,7 +4,26 @@
   align-items: center;
   flex-direction: column;
   height: 90vh;
-
+  .header {
+    display: inline-flex;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    h1 {
+      color: #ffffff;
+      vertical-align: text-top;
+      font-size: 48px;
+      line-height: auto;
+      border-style: hidden;
+      outline: none;
+      width: 245px;
+    }
+    img {
+      height: 147px;
+      width: 161px;
+      border-radius: 50%;
+    }
+  }
   .container_form {
     display: flex;
     align-items: center;
@@ -70,7 +89,7 @@
           color: #000000;
         }
       }
-      .verify_email{
+      .verify_email {
         text-align: center;
         background-color: rgb(13, 226, 13);
         width: 250px;

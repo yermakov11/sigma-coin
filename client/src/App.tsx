@@ -4,6 +4,7 @@ import Registeration from "./pages/Regisration/Registration";
 import MainPage from "./pages/MainPage/MainPage";
 import Profile from "./pages/Profile/Profile";
 import EmailVerify from "./pages/EmailVerify/EmailVerify";
+import AboutUs from "./pages/AboutUs/AboutUs";
 import { useAuth } from "./contexts/userContext";
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     const { isAuthenticated } = useAuth();
     return isAuthenticated() ? <>{children}</> : <Navigate to="/login" />;
   }
+  
   return (
     <Routes>
       <Route path="/main-page" element={<PrivateRoute><MainPage /></PrivateRoute> }/>
@@ -19,6 +21,7 @@ function App() {
       <Route path="/register" element={<Registeration />} />
       <Route path="/verify/:token" element={<EmailVerify />} />
       <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/about" element={<AboutUs />} />
     </Routes>
   );
 }

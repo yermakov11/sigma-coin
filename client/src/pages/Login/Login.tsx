@@ -1,10 +1,10 @@
-import Header from "../../components/Header/Header";
+import coin_img from "../../assets/sigma-coin-img.png";
 import styles from "./Login.module.scss";
 import { Link, useNavigate } from "react-router";
 import { useActionState, useState } from "react";
 import { loginAPI } from "../../api/api";
-import FormStatus from "../../formStatus/FormStatus";
-import{useAuth} from "../../contexts/userContext"
+import FormStatus from "../../components/formStatus/FormStatus";
+import { useAuth } from "../../contexts/userContext";
 
 export default function Login() {
   const { login } = useAuth();
@@ -55,12 +55,12 @@ export default function Login() {
 
     try {
       const response = await loginAPI(email, password);
-      if(response){
-        login(response); 
+      if (response) {
+        login(response);
         setStatus("Login successful");
         console.log("Login successful", response);
-        navigate("/main-page"); 
-      }      
+        navigate("/main-page");
+      }
       return { data: response, error: null };
     } catch (error) {
       console.error("Login error:", error);
@@ -71,15 +71,34 @@ export default function Login() {
   return (
     <main className={styles.container_register}>
       <div className={styles.header}>
-        <Header />
+        <img src={coin_img} alt="error" />
+        <h1>Sigma coin</h1>
       </div>
       <div className={styles.container_form}>
         <h1>Login</h1>
         <form action={submitAction} className={styles.register_form}>
-          <input type="email" name="email" autoComplete="email" placeholder="email"/>
-          {errorRegex.email && (<p style={error_style} className="error">{errorRegex.email}</p>)}
-          <input type="password" name="password" autoComplete="current-password" placeholder="password"/>
-          {errorRegex.password && (<p style={error_style} className="error">{errorRegex.password}</p>)}
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="email"
+          />
+          {errorRegex.email && (
+            <p style={error_style} className="error">
+              {errorRegex.email}
+            </p>
+          )}
+          <input
+            type="password"
+            name="password"
+            autoComplete="current-password"
+            placeholder="password"
+          />
+          {errorRegex.password && (
+            <p style={error_style} className="error">
+              {errorRegex.password}
+            </p>
+          )}
           <FormStatus status={status} />
           {state.error && <p style={error_style}>{state.error}</p>}
           <Link to="/register">registration</Link>

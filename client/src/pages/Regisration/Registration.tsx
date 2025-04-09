@@ -1,9 +1,9 @@
-import Header from "../../components/Header/Header"
+import coin_img from "../../assets/sigma-coin-img.png";
 import styles from './Registration.module.scss'
 import { Link } from "react-router-dom"
 import { useActionState, useState } from "react";
 import {registerAPI} from "../../api/api";
-import FormStatus from "../../formStatus/FormStatus";
+import FormStatus from "../../components/formStatus/FormStatus";
 import { useAuth } from "../../contexts/userContext";
 
 export default function Registration() {
@@ -85,7 +85,8 @@ export default function Registration() {
   return (
     <main className={styles.container_register}>
         <div className={styles.header}>
-            <Header />
+          <img src={coin_img} alt="error" />
+          <h1>Sigma coin</h1>
         </div>
         <div className={styles.container_form}>
             <h1>Registration</h1>
