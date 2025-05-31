@@ -1,6 +1,6 @@
 import coin_img from "../../assets/sigma-coin-img.png";
 import styles from "./Header.module.scss";
-import profile_img from "../../assets/Ellipse 5.png";
+import profile_img from "../../assets/profile_icon.png";
 import { Link } from "react-router";
 
 const Header = () => {
