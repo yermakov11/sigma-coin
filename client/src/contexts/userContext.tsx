@@ -27,7 +27,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(JSON.parse(storedUser));
       } catch (error) {
         console.error("Error when parsing JSON from localStorage:", error);
-        localStorage.removeItem("user");       }
+        localStorage.removeItem("user");
+      }
     }
   }, []);
 
@@ -38,10 +39,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error: Incorrect login details have been transmitted");
       return;
     }
+    localStorage.setItem("user", JSON.stringify(userData)); 
     setUser(userData);
   };
 
   const logout = () => {
+    localStorage.removeItem("user"); 
     setUser(null);
   };
 
@@ -55,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth должен использоваться внутри AuthProvider");
+    throw new Error("useAuth must be used internally AuthProvider");
   }
   return context;
 };
