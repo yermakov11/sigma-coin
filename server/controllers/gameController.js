@@ -5,12 +5,16 @@ const addCoins = async (req, res) => {
     const { coins } = req.body;
     const {id} = req.params; 
 
-    const balance = await User.findByIdAndUpdate(id, req.body);
+    if(isNaN(coins)){
+        return res.status(400).json({message:"Invalid coin value"});
+    }
+
+    const balance = await User.findById(id);
     if (!balance) {
       return res.status(404).json({ message: "User not found" });
     }
     
-    balance.coins += coins;
+    balance.coins += Number(coins);
     await balance.save();
     res.json({ balance: balance.coins });
   } catch (error) {

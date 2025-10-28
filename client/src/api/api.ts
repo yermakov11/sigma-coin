@@ -52,12 +52,22 @@ export const loginAPI = async (email: string, password: string) => {
   }
 };
 
-export const addCoin = async (coin: number) => {
+export const addCoin = async (coins: number, id: string, token: string) => {
   try {
-    const URL = "http://localhost:3000//balance/addCoins/:id";
-    const response = await axios.put(URL, { coin });
+    const URL = `http://localhost:3000/balance/addCoins/${id}`;
+    const response = await axios.put(
+      URL,
+      { coins },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log("Error adding coins:", error.response?.data || error.message);
   }
 };
+
