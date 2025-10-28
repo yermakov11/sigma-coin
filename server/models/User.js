@@ -7,7 +7,6 @@ const userSchema = new Schema(
     surname: { type: String, required: true, trim: true },
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true, trim: true },
-    coins: { type: Number, default: 0 },
     isVerified: { type: Boolean, default: false },
     verificationToken: { type: String, default: null },
   },
